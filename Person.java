@@ -23,9 +23,13 @@ class Person {
   // returns the number of people who will show up at the party
   // given by this person
   int partyCount() {
-    return 1;
+    return 1 + this.partyCountHelper(new ConsLoBuddy(this, new MTLoBuddy()), this);
   }
-        
+  
+  int partyCountHelper(ILoBuddy soFar, Person original) {
+    return this.buddies.partyCounter(soFar, original);
+  }
+
   // returns the number of people that are direct buddies
   // of both this and that person
   int countCommonBuddies(Person that) {
@@ -39,7 +43,7 @@ class Person {
   }
 
   // Helper to determine the given person will be invited to this
-  // person's party. 
+  // person's party.
   boolean hasExtendedBuddyHelper(Person that, ILoBuddy soFar) {
     return this.buddies.hasExtended(that, soFar);
   }

@@ -13,4 +13,5 @@ interface ILoBuddy {
   
   boolean hasExtended(Person that, ILoBuddy soFar);
     
+  int partyCounter(ILoBuddy soFar, Person original);
 }

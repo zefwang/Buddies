@@ -66,4 +66,12 @@ public class ExamplesBuddies {
     t.checkExpect(this.gabi.hasExtendedBuddy(bob), false);
     t.checkExpect(this.hank.hasExtendedBuddy(kim), false);
   }
+
+  void testPartyCount(Tester t) {
+    reset();
+    t.checkExpect(ann.partyCount(), 8);
+    t.checkExpect(ed.partyCount(), 3);
+    t.checkExpect(hank.partyCount(), 1);
+    t.checkExpect(jan.partyCount(), 4); // DOESN'T WORK YET
+  }
 }

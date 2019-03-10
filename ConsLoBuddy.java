@@ -42,4 +42,14 @@ class ConsLoBuddy implements ILoBuddy {
           || this.rest.hasExtended(that, new ConsLoBuddy(this.first, soFar));
     }
   }
+
+  public int partyCounter(ILoBuddy soFar, Person original) {
+    if (original.hasExtendedBuddy(this.first) && !(soFar.hasPerson(this.first))) {
+      return 1 + this.rest.partyCounter(new ConsLoBuddy(this.first, soFar), original)
+          + this.first.partyCountHelper(new ConsLoBuddy(this.first, soFar), original);
+    }
+    else {
+      return this.rest.partyCounter(soFar, original);
+    }
+  }
 }

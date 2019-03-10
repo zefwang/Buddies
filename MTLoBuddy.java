@@ -23,4 +23,8 @@ class MTLoBuddy implements ILoBuddy {
   public boolean hasExtended(Person that, ILoBuddy soFar) {
     return false;
   }
+  
+  public int partyCounter(ILoBuddy soFar, Person original) {
+    return 0;
+  }
 }
