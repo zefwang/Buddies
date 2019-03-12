@@ -71,7 +71,8 @@ public class ExamplesBuddies {
     reset();
     t.checkExpect(ann.partyCount(), 8);
     t.checkExpect(ed.partyCount(), 3);
+    t.checkExpect(gabi.partyCount(), 3); // DOESN'T WORK YET
     t.checkExpect(hank.partyCount(), 1);
-    t.checkExpect(jan.partyCount(), 4); // DOESN'T WORK YET
+    t.checkExpect(len.partyCount(), 3); // DOESN'T WORK YET
   }
 }

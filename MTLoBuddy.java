@@ -24,7 +24,15 @@ class MTLoBuddy implements ILoBuddy {
     return false;
   }
   
-  public int partyCounter(ILoBuddy soFar, Person original) {
+  public ILoBuddy partyCounter(ILoBuddy soFar) {
+    return soFar;
+  }
+  
+  public ILoBuddy appendConsLo(ILoBuddy that) {
+    return that;
+  }
+
+  public int countUnique(ILoBuddy acc) {
     return 0;
   }
 }

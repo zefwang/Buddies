@@ -4,10 +4,21 @@ class Person {
 
   String username;
   ILoBuddy buddies;
+  double diction;
+  double hearing;
 
   Person(String username) {
     this.username = username;
     this.buddies = new MTLoBuddy();
+    this.diction = 0.0;
+    this.hearing = 0.0;
+  }
+  
+  Person(String username, double diction, double hearing){
+    this.username = username;
+    this.buddies = new MTLoBuddy();
+    this.diction = diction;
+    this.hearing = hearing;
   }
 
   // returns true if this Person has that as a direct buddy
@@ -23,11 +34,11 @@ class Person {
   // returns the number of people who will show up at the party
   // given by this person
   int partyCount() {
-    return 1 + this.partyCountHelper(new ConsLoBuddy(this, new MTLoBuddy()), this);
+    return this.partyCountHelper(new ConsLoBuddy(this, new MTLoBuddy())).countUnique(new MTLoBuddy());
   }
   
-  int partyCountHelper(ILoBuddy soFar, Person original) {
-    return this.buddies.partyCounter(soFar, original);
+  ILoBuddy partyCountHelper(ILoBuddy soFar) {
+    return this.buddies.partyCounter(soFar);
   }
 
   // returns the number of people that are direct buddies

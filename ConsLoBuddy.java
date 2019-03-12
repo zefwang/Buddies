@@ -43,13 +43,26 @@ class ConsLoBuddy implements ILoBuddy {
     }
   }
 
-  public int partyCounter(ILoBuddy soFar, Person original) {
-    if (original.hasExtendedBuddy(this.first) && !(soFar.hasPerson(this.first))) {
-      return 1 + this.rest.partyCounter(new ConsLoBuddy(this.first, soFar), original)
-          + this.first.partyCountHelper(new ConsLoBuddy(this.first, soFar), original);
+  public ILoBuddy partyCounter(ILoBuddy soFar) {
+    if (!(soFar.hasPerson(this.first))) {
+      return this.rest.partyCounter(new ConsLoBuddy(this.first, soFar))
+          .appendConsLo(this.first.partyCountHelper(new ConsLoBuddy(this.first, soFar)));
     }
     else {
-      return this.rest.partyCounter(soFar, original);
+      return this.rest.partyCounter(soFar);
+    }
+  }
+
+  public ILoBuddy appendConsLo(ILoBuddy that) {
+    return this.rest.appendConsLo(new ConsLoBuddy(this.first, that));
+  }
+  
+  public int countUnique(ILoBuddy acc) {
+    if (!(acc.hasPerson(this.first))) {
+      return 1 + this.rest.countUnique(new ConsLoBuddy(this.first, acc));
+    }
+    else {
+      return this.rest.countUnique(acc);
     }
   }
 }
