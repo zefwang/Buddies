@@ -14,6 +14,7 @@ class ExamplesBuddies {
   Person kim;
   Person len;
 
+  // Initial values
   void initBuddies() {
     this.ann = new Person("Ann");
     this.bob = new Person("Bob");
@@ -39,7 +40,8 @@ class ExamplesBuddies {
     this.len.addManyBuddies(new ConsLoBuddy(this.jan, new ConsLoBuddy(this.kim, new MTLoBuddy())));
   }
 
-  void testAddBuddy(Tester t) { // Tests that addBuddy() and addManyBuddies() work
+  // Tests for addBuddy(), addManyBuddies(), and addMultBuddies()
+  void testAddBuddy(Tester t) {
     this.ann = new Person("Ann");
     this.bob = new Person("Bob");
     this.dan = new Person("Dan");
@@ -61,6 +63,7 @@ class ExamplesBuddies {
         new ConsLoBuddy(this.dan, new ConsLoBuddy(this.bob, new MTLoBuddy())));
   }
 
+  // Tests for the HasDirectBuddy() and hasDirect() methods
   void testHasDirectBuddy(Tester t) {
     initBuddies();
     t.checkExpect(this.ann.hasDirectBuddy(this.bob), true);
@@ -68,8 +71,15 @@ class ExamplesBuddies {
     t.checkExpect(this.ann.hasDirectBuddy(this.ed), false);
     t.checkExpect(this.ann.hasDirectBuddy(this.kim), false);
     t.checkExpect(this.hank.hasDirectBuddy(this.bob), false);
+
+    t.checkExpect(this.ann.buddies.hasDirect(this.bob), true);
+    t.checkExpect(this.ann.buddies.hasDirect(this.cole), true);
+    t.checkExpect(this.ann.buddies.hasDirect(this.ed), false);
+    t.checkExpect(this.ann.buddies.hasDirect(this.kim), false);
+    t.checkExpect(this.hank.buddies.hasDirect(this.bob), false);
   }
 
+  // Tests for the samePerson() method
   void testSamePerson(Tester t) {
     initBuddies();
     t.checkExpect(this.ann.samePerson(this.ann), true);
@@ -77,13 +87,19 @@ class ExamplesBuddies {
 
   }
 
+  // Tests for the countCommonBuddies() and countCommon() methods
   void testCountCommonBuddies(Tester t) {
     initBuddies();
     t.checkExpect(this.ann.countCommonBuddies(this.bob), 0);
     t.checkExpect(this.ann.countCommonBuddies(this.dan), 1);
     t.checkExpect(this.ann.countCommonBuddies(this.hank), 0);
+
+    t.checkExpect(this.ann.buddies.countCommon(this.bob.buddies), 0);
+    t.checkExpect(this.ann.buddies.countCommon(this.dan.buddies), 1);
+    t.checkExpect(this.ann.buddies.countCommon(this.hank.buddies), 0);
   }
 
+  // Tests for hasExtendedBuddy(), hasExtendedBuddyHelper(), and hasExtended()
   void testHasExtendedBuddy(Tester t) {
     initBuddies();
     t.checkExpect(this.ann.hasExtendedBuddy(dan), true);
@@ -94,10 +110,7 @@ class ExamplesBuddies {
     t.checkExpect(this.jan.hasExtendedBuddy(len), true);
     t.checkExpect(this.gabi.hasExtendedBuddy(bob), false);
     t.checkExpect(this.hank.hasExtendedBuddy(kim), false);
-  }
 
-  void testHasExtendedBuddyHelper(Tester t) {
-    initBuddies();
     t.checkExpect(this.ann.hasExtendedBuddyHelper(dan, new MTLoBuddy()), true);
     t.checkExpect(this.ann.hasExtendedBuddyHelper(bob, new MTLoBuddy()), true);
     t.checkExpect(this.gabi.hasExtendedBuddyHelper(ed, new MTLoBuddy()), true);
@@ -106,30 +119,67 @@ class ExamplesBuddies {
     t.checkExpect(this.jan.hasExtendedBuddyHelper(len, new MTLoBuddy()), true);
     t.checkExpect(this.gabi.hasExtendedBuddyHelper(bob, new MTLoBuddy()), false);
     t.checkExpect(this.hank.hasExtendedBuddyHelper(kim, new MTLoBuddy()), false);
+
+    t.checkExpect(this.ann.buddies.hasExtended(dan, new MTLoBuddy()), true);
+    t.checkExpect(this.ann.buddies.hasExtended(bob, new MTLoBuddy()), true);
+    t.checkExpect(this.gabi.buddies.hasExtended(ed, new MTLoBuddy()), true);
+    t.checkExpect(this.ann.buddies.hasExtended(cole, new MTLoBuddy()), true);
+    t.checkExpect(this.ann.buddies.hasExtended(jan, new MTLoBuddy()), false);
+    t.checkExpect(this.jan.buddies.hasExtended(len, new MTLoBuddy()), true);
+    t.checkExpect(this.gabi.buddies.hasExtended(bob, new MTLoBuddy()), false);
+    t.checkExpect(this.hank.buddies.hasExtended(kim, new MTLoBuddy()), false);
   }
 
+  // Tests for partyCount(), partyCountHelper(), and partyCounter()
   void testPartyCount(Tester t) {
     initBuddies();
-    t.checkExpect(ann.partyCount(), 8);
-    t.checkExpect(ed.partyCount(), 3);
-    t.checkExpect(gabi.partyCount(), 3);
-    t.checkExpect(hank.partyCount(), 1);
-    t.checkExpect(len.partyCount(), 3);
-  }
+    t.checkExpect(this.ann.partyCount(), 8);
+    t.checkExpect(this.ed.partyCount(), 3);
+    t.checkExpect(this.gabi.partyCount(), 3);
+    t.checkExpect(this.hank.partyCount(), 1);
+    t.checkExpect(this.len.partyCount(), 3);
 
-  void testPartyCountHelper(Tester t) {
-    initBuddies();
-    t.checkExpect(ann.partyCountHelper(new ConsLoBuddy(this.ann, new MTLoBuddy()))
+    t.checkExpect(this.ann.partyCountHelper(new ConsLoBuddy(this.ann, new MTLoBuddy()))
         .countUnique(new MTLoBuddy()), 8);
-    t.checkExpect(
-        ed.partyCountHelper(new ConsLoBuddy(this.ed, new MTLoBuddy())).countUnique(new MTLoBuddy()),
-        3);
-    t.checkExpect(gabi.partyCountHelper(new ConsLoBuddy(this.gabi, new MTLoBuddy()))
+    t.checkExpect(this.ed.partyCountHelper(new ConsLoBuddy(this.ed, new MTLoBuddy()))
         .countUnique(new MTLoBuddy()), 3);
-    t.checkExpect(hank.partyCountHelper(new ConsLoBuddy(this.hank, new MTLoBuddy()))
+    t.checkExpect(this.gabi.partyCountHelper(new ConsLoBuddy(this.gabi, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy()), 3);
+    t.checkExpect(this.hank.partyCountHelper(new ConsLoBuddy(this.hank, new MTLoBuddy()))
         .countUnique(new MTLoBuddy()), 1);
-    t.checkExpect(len.partyCountHelper(new ConsLoBuddy(this.len, new MTLoBuddy()))
+    t.checkExpect(this.len.partyCountHelper(new ConsLoBuddy(this.len, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy()), 3);
+
+    t.checkExpect(this.ann.buddies.partyCounter(new ConsLoBuddy(this.ann, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy()), 8);
+    t.checkExpect(this.ed.buddies.partyCounter(new ConsLoBuddy(this.ed, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy()), 3);
+    t.checkExpect(this.gabi.buddies.partyCounter(new ConsLoBuddy(this.gabi, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy()), 3);
+    t.checkExpect(this.hank.buddies.partyCounter(new ConsLoBuddy(this.hank, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy()), 1);
+    t.checkExpect(this.len.buddies.partyCounter(new ConsLoBuddy(this.len, new MTLoBuddy()))
         .countUnique(new MTLoBuddy()), 3);
   }
 
+  // Tests for the appendConsLo() method
+  void testApendConsLo(Tester t) {
+    initBuddies();
+    ILoBuddy mt = new MTLoBuddy();
+    ILoBuddy cons1 = new ConsLoBuddy(this.ann, new ConsLoBuddy(this.bob, new MTLoBuddy()));
+    ILoBuddy cons2 = new ConsLoBuddy(this.cole, new ConsLoBuddy(this.dan, new MTLoBuddy()));
+
+    t.checkExpect(mt.appendConsLo(mt), new MTLoBuddy());
+    t.checkExpect(mt.appendConsLo(cons1),
+        new ConsLoBuddy(this.ann, new ConsLoBuddy(this.bob, new MTLoBuddy())));
+    t.checkExpect(cons1.appendConsLo(cons2), new ConsLoBuddy(this.bob, new ConsLoBuddy(this.ann,
+        new ConsLoBuddy(this.cole, new ConsLoBuddy(this.dan, new MTLoBuddy())))));
+  }
+
+  // Tests for countUnique()
+  void testCountUnique(Tester t) {
+    initBuddies();
+    t.checkExpect(this.ann.buddies.countUnique(new MTLoBuddy()), 2);
+    t.checkExpect(this.hank.buddies.countUnique(new MTLoBuddy()), 0);
+  }
 }

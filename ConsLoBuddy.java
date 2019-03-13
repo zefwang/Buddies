@@ -15,10 +15,12 @@ class ConsLoBuddy implements ILoBuddy {
     target.addManyBuddies(this.rest);
   }
 
+  // Determines if that person is a direct friend of this person
   public boolean hasDirect(Person that) {
     return this.first.samePerson(that) || this.rest.hasDirect(that);
   }
 
+  // Finds the number of common buddies two Persons have
   public int countCommon(ILoBuddy that) {
     if (that.hasPerson(this.first)) {
       return 1 + this.rest.countCommon(that);
@@ -28,10 +30,12 @@ class ConsLoBuddy implements ILoBuddy {
     }
   }
 
+  // Determines if a list has that person
   public boolean hasPerson(Person that) {
     return this.first.samePerson(that) || this.rest.hasPerson(that);
   }
-
+  
+  // Determines if that person is an extended buddy (direct or indirect)
   public boolean hasExtended(Person that, ILoBuddy soFar) {
     if (soFar.hasPerson(this.first)) {
       return this.hasPerson(that) || this.rest.hasExtended(that, soFar);
@@ -43,6 +47,7 @@ class ConsLoBuddy implements ILoBuddy {
     }
   }
 
+  // Returns all the individuals who will be invited to the party
   public ILoBuddy partyCounter(ILoBuddy soFar) {
     if (!(soFar.hasPerson(this.first))) {
       return this.rest.partyCounter(new ConsLoBuddy(this.first, soFar))
@@ -53,10 +58,12 @@ class ConsLoBuddy implements ILoBuddy {
     }
   }
 
+  // Puts together two ILoBuddy
   public ILoBuddy appendConsLo(ILoBuddy that) {
     return this.rest.appendConsLo(new ConsLoBuddy(this.first, that));
   }
 
+  // Counts all the unique items in a list
   public int countUnique(ILoBuddy acc) {
     if (!(acc.hasPerson(this.first))) {
       return 1 + this.rest.countUnique(new ConsLoBuddy(this.first, acc));
@@ -66,6 +73,7 @@ class ConsLoBuddy implements ILoBuddy {
     }
   }
 
+  // Finds the maximum likelihood
   public double findMax(Person that, double score) {
     if (this.first.samePerson(that)) {
       return score * that.hearing;
