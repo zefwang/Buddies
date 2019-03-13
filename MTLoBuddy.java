@@ -6,33 +6,38 @@ class MTLoBuddy implements ILoBuddy {
 
   // Changes this person's buddy list to include the given people (none)
   public void addMultBuddies(Person target) {
+    // This is a void method
   }
-  
+
   public boolean hasDirect(Person that) {
     return false;
   }
-  
+
   public int countCommon(ILoBuddy that) {
     return 0;
   }
-  
+
   public boolean hasPerson(Person that) {
     return false;
   }
-  
+
   public boolean hasExtended(Person that, ILoBuddy soFar) {
     return false;
   }
-  
+
   public ILoBuddy partyCounter(ILoBuddy soFar) {
     return soFar;
   }
-  
+
   public ILoBuddy appendConsLo(ILoBuddy that) {
     return that;
   }
 
   public int countUnique(ILoBuddy acc) {
     return 0;
+  }
+
+  public double findMax(Person that, double score) {
+    return 0.0;
   }
 }

@@ -56,7 +56,7 @@ class ConsLoBuddy implements ILoBuddy {
   public ILoBuddy appendConsLo(ILoBuddy that) {
     return this.rest.appendConsLo(new ConsLoBuddy(this.first, that));
   }
-  
+
   public int countUnique(ILoBuddy acc) {
     if (!(acc.hasPerson(this.first))) {
       return 1 + this.rest.countUnique(new ConsLoBuddy(this.first, acc));
@@ -64,5 +64,12 @@ class ConsLoBuddy implements ILoBuddy {
     else {
       return this.rest.countUnique(acc);
     }
+  }
+
+  public double findMax(Person that, double score) {
+    if (this.first.samePerson(that)) {
+      return score * that.hearing;
+    }
+    return score * this.first.diction;
   }
 }

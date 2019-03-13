@@ -13,12 +13,22 @@ class Person {
     this.diction = 0.0;
     this.hearing = 0.0;
   }
-  
-  Person(String username, double diction, double hearing){
+
+  Person(String username, double diction, double hearing) {
     this.username = username;
     this.buddies = new MTLoBuddy();
     this.diction = diction;
     this.hearing = hearing;
+  }
+
+  // Changes this person's buddy list to include the given person
+  void addBuddy(Person buddy) {
+    this.buddies = new ConsLoBuddy(buddy, this.buddies);
+  }
+
+  // Changes this person's buddy list to include the given people
+  void addManyBuddies(ILoBuddy newBuds) {
+    newBuds.addMultBuddies(this);
   }
 
   // returns true if this Person has that as a direct buddy
@@ -31,16 +41,6 @@ class Person {
     return this.username.equals(that.username);
   }
 
-  // returns the number of people who will show up at the party
-  // given by this person
-  int partyCount() {
-    return this.partyCountHelper(new ConsLoBuddy(this, new MTLoBuddy())).countUnique(new MTLoBuddy());
-  }
-  
-  ILoBuddy partyCountHelper(ILoBuddy soFar) {
-    return this.buddies.partyCounter(soFar);
-  }
-
   // returns the number of people that are direct buddies
   // of both this and that person
   int countCommonBuddies(Person that) {
@@ -50,7 +50,7 @@ class Person {
   // will the given person be invited to a party
   // organized by this person?
   boolean hasExtendedBuddy(Person that) {
-    return this.buddies.hasExtended(that, new MTLoBuddy());
+    return this.hasExtendedBuddyHelper(that, new MTLoBuddy());
   }
 
   // Helper to determine the given person will be invited to this
@@ -59,13 +59,21 @@ class Person {
     return this.buddies.hasExtended(that, soFar);
   }
 
-  // Changes this person's buddy list to include the given person
-  void addBuddy(Person buddy) {
-    this.buddies = new ConsLoBuddy(buddy, this.buddies);
+  // returns the number of people who will show up at the party
+  // given by this person
+  int partyCount() {
+    return this.partyCountHelper(new ConsLoBuddy(this, new MTLoBuddy()))
+        .countUnique(new MTLoBuddy());
   }
 
-  // Changes this person's buddy list to include the given people
-  void addManyBuddies(ILoBuddy newBuds) {
-    newBuds.addMultBuddies(this);
+  ILoBuddy partyCountHelper(ILoBuddy soFar) {
+    return this.buddies.partyCounter(soFar);
+  }
+
+  double maxLikelihood(Person that) {
+    if (this.samePerson(that)) {
+      return 1.0;
+    }
+    return this.buddies.findMax(that, this.diction);
   }
 }
