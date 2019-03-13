@@ -74,6 +74,10 @@ class Person {
     if (this.samePerson(that)) {
       return 1.0;
     }
-    return this.buddies.findMax(that, this.diction);
+    return this.maxLikelihoodHelper(that, new ConsLoBuddy(this, new MTLoBuddy()));
+  }
+
+  double maxLikelihoodHelper(Person that, ILoBuddy soFar) {
+    return this.buddies.findMax(that, this.diction, soFar);
   }
 }

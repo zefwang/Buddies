@@ -27,5 +27,5 @@ interface ILoBuddy {
   int countUnique(ILoBuddy acc);
 
   // Finds the maximum likelihood
-  double findMax(Person that, double score);
+  double findMax(Person that, double score, ILoBuddy soFar);
 }

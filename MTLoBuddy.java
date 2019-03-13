@@ -45,7 +45,7 @@ class MTLoBuddy implements ILoBuddy {
   }
 
   // Finds the maximum likelihood (0.0)
-  public double findMax(Person that, double score) {
+  public double findMax(Person that, double score, ILoBuddy soFar) {
     return 0.0;
   }
 }

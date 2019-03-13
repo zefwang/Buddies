@@ -13,6 +13,11 @@ class ExamplesBuddies {
   Person jan;
   Person kim;
   Person len;
+  Person personA;
+  Person personB;
+  Person personC;
+  Person personD;
+  Person personE;
 
   // Initial values
   void initBuddies() {
@@ -38,6 +43,16 @@ class ExamplesBuddies {
     this.jan.addManyBuddies(new ConsLoBuddy(this.kim, new ConsLoBuddy(this.len, new MTLoBuddy())));
     this.kim.addManyBuddies(new ConsLoBuddy(this.jan, new ConsLoBuddy(this.len, new MTLoBuddy())));
     this.len.addManyBuddies(new ConsLoBuddy(this.jan, new ConsLoBuddy(this.kim, new MTLoBuddy())));
+
+    this.personA = new Person("A", .95, .8);
+    this.personB = new Person("B", .85, .99);
+    this.personC = new Person("C", .95, .9);
+    this.personD = new Person("D", 1.0, .95);
+    this.personE = new Person("E", .98, .95);
+    this.personA
+        .addManyBuddies(new ConsLoBuddy(personB, new ConsLoBuddy(personC, new MTLoBuddy())));
+    this.personB.addBuddy(this.personD);
+    this.personC.addBuddy(this.personD);
   }
 
   // Tests for addBuddy(), addManyBuddies(), and addMultBuddies()
@@ -181,5 +196,14 @@ class ExamplesBuddies {
     initBuddies();
     t.checkExpect(this.ann.buddies.countUnique(new MTLoBuddy()), 2);
     t.checkExpect(this.hank.buddies.countUnique(new MTLoBuddy()), 0);
+  }
+
+  void testMaxLikelihood(Tester t) {
+    initBuddies();
+    t.checkInexact(this.personA.maxLikelihood(this.personA), 1.0, .001);
+    t.checkInexact(this.personA.maxLikelihood(this.personB), .9405, .001);
+    t.checkInexact(this.personA.maxLikelihood(this.personC), .855, .001);
+    t.checkInexact(this.personE.maxLikelihood(this.personA), 0.0, .001);
+    t.checkInexact(this.personA.maxLikelihood(this.personD), .772, .01);
   }
 }
