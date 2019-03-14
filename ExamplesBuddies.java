@@ -198,12 +198,13 @@ class ExamplesBuddies {
     t.checkExpect(this.hank.buddies.countUnique(new MTLoBuddy()), 0);
   }
 
+  // Tests for maxLikelihood()
   void testMaxLikelihood(Tester t) {
     initBuddies();
     t.checkInexact(this.personA.maxLikelihood(this.personA), 1.0, .001);
     t.checkInexact(this.personA.maxLikelihood(this.personB), .9405, .001);
     t.checkInexact(this.personA.maxLikelihood(this.personC), .855, .001);
     t.checkInexact(this.personE.maxLikelihood(this.personA), 0.0, .001);
-    t.checkInexact(this.personA.maxLikelihood(this.personD), .772, .01);
+    t.checkInexact(this.personA.maxLikelihood(this.personD), .772, .001);
   }
 }

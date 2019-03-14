@@ -80,4 +80,8 @@ class Person {
   double maxLikelihoodHelper(Person that, ILoBuddy soFar) {
     return this.buddies.findMax(that, this.diction, soFar);
   }
+
+  double updateScore(double score) {
+    return this.hearing * score;
+  }
 }

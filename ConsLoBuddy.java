@@ -75,24 +75,19 @@ class ConsLoBuddy implements ILoBuddy {
 
   // Finds the maximum likelihood
   public double findMax(Person that, double score, ILoBuddy soFar) {
+    // The first person is that person
     if (this.first.samePerson(that)) {
       return score * that.hearing;
     }
+    // Haven't visited this person and can reach that person
     else if (!(soFar.hasPerson(this.first)) && this.first.hasExtendedBuddy(that)) {
       soFar = new ConsLoBuddy(this.first, soFar);
-      return Math.max(score * this.first.diction * this.first.maxLikelihood(that), this.rest.findMax(that, score, soFar));
+      return Math.max(this.first.updateScore(score) * this.first.maxLikelihoodHelper(that, soFar),
+          this.rest.findMax(that, score, soFar));
     }
+    // Have already visited this.first person
     else {
       return this.rest.findMax(that, score, soFar);
     }
   }
-
-  /*
-   * Must determine:
-   * 1) Can reach THAT person using this.first.hasExtendedBuddy(that)
-   * 2) This person has not already been visited using soFar.hasPerson(this.first)
-   * 3) Find the maximum value using Math.max(score going down this.first route,
-   * this.rest.findMax())
-   * 
-   */
 }
