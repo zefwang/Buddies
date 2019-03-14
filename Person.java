@@ -26,7 +26,7 @@ class Person {
   // Changes this person's buddy list to include the given person
   void addBuddy(Person buddy) {
     if (!this.buddies.hasDirect(buddy)) {
-    this.buddies = new ConsLoBuddy(buddy, this.buddies); 
+      this.buddies = new ConsLoBuddy(buddy, this.buddies);
     }
   }
 

@@ -49,7 +49,7 @@ class ExamplesBuddies {
     this.personC = new Person("C", .95, .9);
     this.personD = new Person("D", 1.0, .95);
     this.personE = new Person("E", .98, .95);
-    
+
     this.personA
         .addManyBuddies(new ConsLoBuddy(personB, new ConsLoBuddy(personC, new MTLoBuddy())));
     this.personB.addBuddy(this.personD);
@@ -202,31 +202,40 @@ class ExamplesBuddies {
   // Tests for maxLikelihood()
   void testMaxLikelihood(Tester t) {
     initBuddies();
+
     t.checkInexact(this.personA.maxLikelihood(this.personA), 1.0, .001);
     t.checkInexact(this.personA.maxLikelihood(this.personB), .9405, .001);
     t.checkInexact(this.personA.maxLikelihood(this.personC), .855, .001);
     t.checkInexact(this.personE.maxLikelihood(this.personA), 0.0, .001);
     t.checkInexact(this.personA.maxLikelihood(this.personD), .772, .001);
   }
-  
+
   // Test for findMax()
   void testFindMax(Tester t) {
     initBuddies();
-    t.checkExpect(this.personA.buddies.findMax(this.personB, 1.0, this.personA.buddies), 1.0*0.99);
+
+    t.checkExpect(this.personA.buddies.findMax(this.personB, 1.0, this.personA.buddies),
+        1.0 * 0.99);
     t.checkExpect(this.personA.buddies.findMax(this.personC, 1.0, this.personB.buddies), 0.9);
     t.checkExpect(this.personE.buddies.findMax(this.personC, 12, this.personC.buddies), 0.0);
   }
+
   // Test for maxLikelihoodHelper()
   void testMaxLikelihoodHelper(Tester t) {
     initBuddies();
-    t.checkInexact(this.personA.maxLikelihoodHelper(this.personB, this.personA.buddies), .9405, .001);
-    t.checkInexact(this.personA.maxLikelihoodHelper(this.personC, this.personC.buddies), .855, .001);
+
+    t.checkInexact(this.personA.maxLikelihoodHelper(this.personB, this.personA.buddies), .9405,
+        .001);
+    t.checkInexact(this.personA.maxLikelihoodHelper(this.personC, this.personC.buddies), .855,
+        .001);
     t.checkExpect(this.personE.maxLikelihoodHelper(this.personA, this.personA.buddies), 0.0);
   }
+
   // Test for updateScore()
   void testUpdateScore(Tester t) {
     initBuddies();
-    t.checkExpect(this.personA.updateScore(100.0), this.personA.hearing*100);
+
+    t.checkExpect(this.personA.updateScore(100.0), this.personA.hearing * 100);
     t.checkExpect(this.personA.updateScore(0.0), 0.0);
   }
 }
