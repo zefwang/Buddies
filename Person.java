@@ -7,6 +7,7 @@ class Person {
   double diction;
   double hearing;
 
+  // Constructor that takes just the name
   Person(String username) {
     this.username = username;
     this.buddies = new MTLoBuddy();
@@ -14,6 +15,7 @@ class Person {
     this.hearing = 0.0;
   }
 
+  // Constructor that takes the name, diction, and hearing levels.
   Person(String username, double diction, double hearing) {
     this.username = username;
     this.buddies = new MTLoBuddy();
@@ -23,7 +25,9 @@ class Person {
 
   // Changes this person's buddy list to include the given person
   void addBuddy(Person buddy) {
-    this.buddies = new ConsLoBuddy(buddy, this.buddies);
+    if (!this.buddies.hasDirect(buddy)) {
+    this.buddies = new ConsLoBuddy(buddy, this.buddies); 
+    }
   }
 
   // Changes this person's buddy list to include the given people
@@ -36,19 +40,19 @@ class Person {
     return this.buddies.hasDirect(that);
   }
 
-  // Returns true if this Person is the same as the given
+  // Returns true if this Person is the same as the given Person
   boolean samePerson(Person that) {
     return this.username.equals(that.username);
   }
 
   // returns the number of people that are direct buddies
-  // of both this and that person
+  // of both this Person and that (given) Person
   int countCommonBuddies(Person that) {
     return this.buddies.countCommon(that.buddies);
   }
 
   // will the given person be invited to a party
-  // organized by this person?
+  // organized by this person through direct or indirect buddies?
   boolean hasExtendedBuddy(Person that) {
     return this.hasExtendedBuddyHelper(that, new MTLoBuddy());
   }
@@ -66,10 +70,13 @@ class Person {
         .countUnique(new MTLoBuddy());
   }
 
+  // Returns the individuals that will be invited to this person's party.
   ILoBuddy partyCountHelper(ILoBuddy soFar) {
     return this.buddies.partyCounter(soFar);
   }
 
+  // Computes the maximum likelihood that this Person can
+  // convey a message correctly to that (given) Person
   double maxLikelihood(Person that) {
     if (this.samePerson(that)) {
       return 1.0;
@@ -77,10 +84,13 @@ class Person {
     return this.maxLikelihoodHelper(that, new ConsLoBuddy(this, new MTLoBuddy()));
   }
 
+  // A helper to compute the maximum likelihood of a message
+  // being conveyed from this Person to that Person
   double maxLikelihoodHelper(Person that, ILoBuddy soFar) {
     return this.buddies.findMax(that, this.diction, soFar);
   }
 
+  // Updates the score by multiplying the current score by this person's hearing.
   double updateScore(double score) {
     return this.hearing * score;
   }

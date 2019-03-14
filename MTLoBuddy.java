@@ -1,10 +1,10 @@
-
 // represents an empty list of Person's buddies
 class MTLoBuddy implements ILoBuddy {
   MTLoBuddy() {
   }
 
   // Changes this person's buddy list to include the given people (none)
+  // EFFECT: none
   public void addMultBuddies(Person target) {
     // This is a void method
   }

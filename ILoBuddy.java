@@ -1,4 +1,3 @@
-
 // represents a list of Person's buddies
 interface ILoBuddy {
 
@@ -10,10 +9,7 @@ interface ILoBuddy {
 
   // Finds the number of common buddies two Persons have
   int countCommon(ILoBuddy that);
-
-  // Determines if a list has that person
-  boolean hasPerson(Person that);
-
+  
   // Determines if that person is an extended buddy (direct or indirect)
   boolean hasExtended(Person that, ILoBuddy soFar);
 

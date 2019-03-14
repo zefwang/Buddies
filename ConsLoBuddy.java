@@ -10,6 +10,7 @@ class ConsLoBuddy implements ILoBuddy {
   }
 
   // Changes this person's buddy list to include the given people
+  // EFFECT: Adds this list of buddies to the given person's buddies
   public void addMultBuddies(Person target) {
     target.addBuddy(this.first);
     target.addManyBuddies(this.rest);
@@ -22,7 +23,7 @@ class ConsLoBuddy implements ILoBuddy {
 
   // Finds the number of common buddies two Persons have
   public int countCommon(ILoBuddy that) {
-    if (that.hasPerson(this.first)) {
+    if (that.hasDirect(this.first)) {
       return 1 + this.rest.countCommon(that);
     }
     else {
@@ -30,18 +31,13 @@ class ConsLoBuddy implements ILoBuddy {
     }
   }
 
-  // Determines if a list has that person
-  public boolean hasPerson(Person that) {
-    return this.first.samePerson(that) || this.rest.hasPerson(that);
-  }
-
   // Determines if that person is an extended buddy (direct or indirect)
   public boolean hasExtended(Person that, ILoBuddy soFar) {
-    if (soFar.hasPerson(this.first)) {
-      return this.hasPerson(that) || this.rest.hasExtended(that, soFar);
+    if (soFar.hasDirect(this.first)) {
+      return this.hasDirect(that) || this.rest.hasExtended(that, soFar);
     }
     else {
-      return this.hasPerson(that)
+      return this.hasDirect(that)
           || this.first.hasExtendedBuddyHelper(that, new ConsLoBuddy(this.first, soFar))
           || this.rest.hasExtended(that, new ConsLoBuddy(this.first, soFar));
     }
@@ -49,7 +45,7 @@ class ConsLoBuddy implements ILoBuddy {
 
   // Returns all the individuals who will be invited to the party
   public ILoBuddy partyCounter(ILoBuddy soFar) {
-    if (!(soFar.hasPerson(this.first))) {
+    if (!(soFar.hasDirect(this.first))) {
       return this.rest.partyCounter(new ConsLoBuddy(this.first, soFar))
           .appendConsLo(this.first.partyCountHelper(new ConsLoBuddy(this.first, soFar)));
     }
@@ -65,7 +61,7 @@ class ConsLoBuddy implements ILoBuddy {
 
   // Counts all the unique items in a list
   public int countUnique(ILoBuddy acc) {
-    if (!(acc.hasPerson(this.first))) {
+    if (!(acc.hasDirect(this.first))) {
       return 1 + this.rest.countUnique(new ConsLoBuddy(this.first, acc));
     }
     else {
@@ -80,7 +76,7 @@ class ConsLoBuddy implements ILoBuddy {
       return score * that.hearing;
     }
     // Haven't visited this person and can reach that person
-    else if (!(soFar.hasPerson(this.first)) && this.first.hasExtendedBuddy(that)) {
+    else if (!(soFar.hasDirect(this.first)) && this.first.hasExtendedBuddy(that)) {
       soFar = new ConsLoBuddy(this.first, soFar);
       return Math.max(this.first.updateScore(score) * this.first.maxLikelihoodHelper(that, soFar),
           this.rest.findMax(that, score, soFar));
